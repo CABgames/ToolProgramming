@@ -1,0 +1,110 @@
+﻿<Window
+    
+        x:Class="SpriteEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpriteEditor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1200" ResizeMode="NoResize" >
+
+    <!-- The grid -->
+    <Grid>
+
+        <!-- Three main rows for grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Name="RowMenu" Height="40"/>
+            <RowDefinition Name="RowMain" Height="400"/>
+            <RowDefinition Name="RowLower" Height="160"/>
+        </Grid.RowDefinitions>
+
+        <!-- Four main collumns for grid -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- File dropdowns with options in top left menu. -->
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="0,-3,0,0"  Background="Black">
+            <MenuItem Name="mnuFile" Header="_File" FontWeight="Bold" Background="Gray" Width="200" FontSize="35" Height="42">
+                <MenuItem Name="menuFileNew" Header="_New" Click="menuFile_New" Width="200" Height="40"/>
+                <MenuItem Name="menuFileOpen" Header="_Open" Click="menuFile_Open"/>
+                <MenuItem Name="menuFileSave" Header="_Save" Click="menuFile_Save"/>
+                <MenuItem Name="menuFileExit" Header="_Exit" Click="menuFile_Exit"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Blank background sprite drawing area. -->
+        <Border Name="imgBorder" Background="White" BorderBrush="Black" BorderThickness="1"  Grid.Column="0" Grid.Row="1" Width="400" Height="400" HorizontalAlignment="Left">
+            <Image x:Name="MainImage" MouseDown="MainImage_MouseDown" MouseMove="MainImage_MouseMove" MouseUp="MainImage_MouseUp" Height="Auto" Width="Auto" VerticalAlignment="Top"/>
+        </Border>
+
+        <!-- Sprite laters list area to display and select sprite layers -->
+        <ListBox Name="LayerViewer" Grid.Row="1" SelectionChanged="LayerView_SelectionChanged" ItemsSource="{Binding SpriteList, UpdateSourceTrigger=PropertyChanged}" Margin="0,1" Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="40" Height="40" Source="{Binding Path=Path}" />
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Display current draw brush size. -->
+        <StatusBar Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" Margin="0,0,0,1">
+            <StatusBarItem Name="ProgramSize" Margin="0,400,0,0" >
+                <TextBlock Name= "CurrentSize"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- Display X and Y axis coordinates in program to users so they understand where they are ib sprite editor panel. -->
+        <StatusBar Grid.Row="2" Grid.Column="2" Grid.RowSpan="1" Margin="0,0,0,29">
+            <StatusBar Name="programStatusX">
+                <TextBlock Name= "mousePositionX"/>
+            </StatusBar>
+            <StatusBar Name="programStatusY">
+                <TextBlock Name= "mousePositionY"/>
+            </StatusBar>
+        </StatusBar>
+
+        <!-- Six key buttons which play key in program editor, these include eraser, pain, move, zoom, and pencil of course. -->
+        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,28" Background="Black">
+            <Button x:Name="btnOne" Margin="0" FontWeight="Bold" Height="65" Background="Gray" Click="btnOne_Click" FontSize="35" Content="- Size" Width="200" HorizontalAlignment="Left"/>
+            <Button x:Name="btnTwo" Margin="0" FontWeight="Bold" Height="65" Background="Gray" FontSize="35" Content="+ Size" HorizontalAlignment="Left" Width="200" Click="btnTwo_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="200,0,1,28"  Background="Black">
+            <Button x:Name="btnThree" Margin="0" FontWeight="Bold" Height="65" Background="Gray" FontSize="35" Content="Fill Tool" Width="200" HorizontalAlignment="Left" Click="btnThree_Click"/>
+            <Button x:Name="btnFour" Margin="0" FontWeight="Bold" Height="65" Background="Gray" FontSize="35" Content="Move Tool" HorizontalAlignment="Left" Width="200" Click="btnFour_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0.3,28"  Background="Black">
+            <Button x:Name="btnFive" Margin="0" FontWeight="Bold" Height="65" Background="Gray" Click="btnFive_Click" FontSize="35" Content="Pencil Tool" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left"/>
+            <Button x:Name="btnSix" Margin="0" FontWeight="Bold" Height="65" Click="btnSix_Click" Background="Gray" FontSize="35" Content="Eraser Tool" Width="200" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <!-- Large colorful visual display/portrayal of useable colors to the users. -->
+        <ListBox x:Name="clrSelection" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Height="560" Width="400"   Background="Black" Margin="0,0,0,28" Grid.RowSpan="2">
+            <ListViewItem x:Name="clrBlack" FontWeight="Bold" FontSize="20" Background="LightGray"  Height="44" Selected="clrBlack_click" >Black</ListViewItem>
+            <ListViewItem x:Name="clrGray" FontWeight="Bold" FontSize="20" Background="Gray"  Height="44" Selected="clrGrey_click" >Gray</ListViewItem>
+            <ListViewItem x:Name="clrDarkGray" FontWeight="Bold" FontSize="20" Background="DarkGray" Height="44" Selected="clrDarkGrey_click" >DarkGray</ListViewItem>
+            <ListViewItem x:Name="clrLightBlue" FontWeight="Bold" FontSize="20" Background="LightBlue" Height="44" Selected="clrLightBlue_click" >LightBlue</ListViewItem>
+            <ListViewItem x:Name="clrBlue" FontWeight="Bold" FontSize="20" Background="Blue" Height="44" Selected="clrBlue_click" >Blue</ListViewItem>
+            <ListViewItem x:Name="clrRed" FontWeight="Bold" FontSize="20" Background="Red" Height="44" Selected="clrRed_click" >Red</ListViewItem>
+            <ListViewItem x:Name="clrDarkRed" FontWeight="Bold" FontSize="20" Background="DarkRed" Height="44" Selected="clrDarkRed_click" >DarkRed</ListViewItem>
+            <ListViewItem x:Name="clrPaleVioletRed" FontWeight="Bold" FontSize="20" Background="PaleVioletRed" Height="44" Selected="clrPaleVioletRed_click" >PaleVioletRed</ListViewItem>
+            <ListViewItem x:Name="clrPurple" FontWeight="Bold" FontSize="20" Background="Purple" Height="44" Selected="clrPurple_click" >Purple</ListViewItem>
+            <ListViewItem x:Name="clrOrange" FontWeight="Bold" FontSize="20" Background="Orange" Height="44" Selected="clrOrange_click" >Orange</ListViewItem>
+            <ListViewItem x:Name="clrDarkOrange" FontWeight="Bold" FontSize="20" Background="DarkOrange" Height="44" Selected="clrDarkOrange_click" >DarkOrange</ListViewItem>
+            <ListViewItem x:Name="clrLightGreen" FontWeight="Bold" FontSize="20" Background="LightGreen" Height="44" Selected="clrLightGreen_click" >LightGreen</ListViewItem>
+            <ListViewItem x:Name="clrGreen" FontWeight="Bold" FontSize="20" Background="Green" Height="44" Selected="clrGreen_click" >Green</ListViewItem>
+            <ListViewItem x:Name="clrCoral" FontWeight="Bold" FontSize="20" Background="Coral" Height="44" Selected="clrCoral_click" >Coral</ListViewItem>
+            <ListViewItem x:Name="clrFloralWhite" FontWeight="Bold" FontSize="20" Background="FloralWhite" Height="44" Selected="clrFloralWhite_click" >FloralWhite</ListViewItem>
+            <ListViewItem x:Name="clrOrangeRed" FontWeight="Bold" FontSize="20" Background="OrangeRed" Height="44" Selected="clrOrangeRed_click" >OrangeRed</ListViewItem>
+
+        </ListBox>
+
+    </Grid>
+</Window>
